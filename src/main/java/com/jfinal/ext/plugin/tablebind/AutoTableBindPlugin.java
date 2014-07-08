@@ -56,7 +56,7 @@ public class AutoTableBindPlugin extends ActiveRecordPlugin {
         this.nameStyle = nameStyle;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "rawtypes" })
     public AutoTableBindPlugin addExcludeClasses(Class<? extends Model>... clazzes) {
         for (Class<? extends Model> clazz : clazzes) {
             excludeClasses.add(clazz);

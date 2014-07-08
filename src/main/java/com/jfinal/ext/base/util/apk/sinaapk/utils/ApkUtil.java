@@ -120,7 +120,6 @@ public class ApkUtil {
      *            保存的路径
      * @return 是否保存成功
      */
-    @SuppressWarnings("resource")
 	public boolean saveIcon(String apkPath, String iconPath, File file) {
         if (iconPath == null) {
             return false;
