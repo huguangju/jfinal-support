@@ -113,7 +113,6 @@ public class Controller<T> extends com.jfinal.core.Controller {
 	}
 
 	public DataGrid<T> getDataGrid() {
-
 		DataGrid<T> dg = new DataGrid<T>();
 
 		dg.sortName = getPara("sort", "");

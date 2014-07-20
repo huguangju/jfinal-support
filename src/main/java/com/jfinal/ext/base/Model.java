@@ -19,13 +19,12 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 
 	private static final long serialVersionUID = 8924183967602127690L;
 
-	/***
+	/**
 	 * 用来当 缓存名字 也用来 生成 简单sql
 	 */
-
 	public String tableName;
 
-	/***
+	/**
 	 * 反射获取 注解获得 tablename
 	 */
 	public Model() {
@@ -33,30 +32,38 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 
 		if (table != null)
 			tableName = table.tableName();
-
 	}
 
 	public boolean update(String key, Object value, Object id) {
-
 		return Db.update("update " + tableName + " set " + key
 				+ "=? where id =?", value, id) > 0;
 	}
 
+	/**
+	 * 仅适用于约定 [有名为name的字段]
+	 */
 	public M findByName(String name) {
 		return findFirst("select * from " + tableName + " where name =? ", name);
 	}
 
+	/**
+	 * 仅适用于约定 [有名为name的字段]
+	 */
 	public boolean checkNameExist(String name) {
-
-		return findFirst("select * from " + tableName + " where name ='" + name
-				+ "'") != null;
-
+		return findFirst("select * from " + tableName + " where name ='" + name + "'") != null;
 	}
-
+	
+	public M findByField(String field, Object fieldValue){
+		return findFirst("select * from " + tableName + " where "+ field + "=? ", fieldValue);
+	}
+	
+	public boolean checkNameExist(String field, Object fieldValue) {
+		return findFirst("select * from " + tableName + " where "+ field +"='" + fieldValue + "'") != null;
+	}
+	
+	
 	/***
 	 * if empty remove the attr
-	 * 
-	 * @param attr
 	 */
 	public Model<M> emptyRemove(String attr) {
 		if (get(attr) == null)
@@ -73,9 +80,6 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 
 	/***
 	 * 删除自己的同时 删除 所有 子节点 属性名 必需为pid
-	 * 
-	 * @param para
-	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	public boolean deleteByIdAndPid(Integer id) {
@@ -94,14 +98,11 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 
 	/***
 	 * ids 必需为 连续的 1，2，3 这样子
-	 * 
-	 * @param ids
 	 */
 	public boolean batchDelete(String ids) {
 		if (Validate.isEmpty(ids))
 			return false;
-		return Db.update("delete from " + tableName + " where id in (" + ids
-				+ ")") > 0;
+		return Db.update("delete from " + tableName + " where id in (" + ids+ ")") > 0;
 
 	}
 
@@ -129,7 +130,6 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 					result = true;
 					return result;
 				} else {
-
 					if (pidIsChild(r.getId(), pid)) {
 						result = true;
 						L.i("result =" + result);
@@ -141,11 +141,9 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 		}
 
 		return result;
-
 	}
 
 	public boolean isFind(String sql) {
-
 		return find(sql).size() > 0;
 	}
 
@@ -154,52 +152,37 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 	}
 
 	public boolean isFindByWhere(String where, Object... params) {
-
 		return list(where, params).size() > 0;
 	}
 
 	/***
 	 * 返回全部的数据 比较方便 但不灵活
-	 * 
-	 * @return
 	 */
 	public List<M> list() {
-
 		return find(" select *from " + tableName);
 	}
 
 	public List<M> listOrderBySeq() {
-
 		return list(" order by seq");
 	}
 
 	public List<M> listOrderBySeq(String where, Object... params) {
-
 		return list(where + " order by seq", params);
 	}
 
 	/***
 	 * 自定义sql
-	 * 
-	 * @param sql
-	 * @param dg
-	 * @param f
-	 * @return
 	 */
 	public DataGrid<M> listByDataGrid(String sql, DataGrid<M> dg, Form f) {
 		List<M> list = find(sql + f.getWhereAndLimit(dg));
 		dg.rows = list;
 		dg.total = (int) getCount(sql + f.getWhere(dg));
-
+		
 		return dg;
 	}
 
 	/***
 	 * 直接插 自动删除 最简单的sql
-	 * 
-	 * @param dg
-	 * @param f
-	 * @return
 	 */
 	public DataGrid<M> listByDataGrid(DataGrid<M> dg, Form f) {
 		List<M> list = list(f.getWhereAndLimit(dg));
@@ -210,26 +193,21 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 	}
 
 	public List<M> list(String sql, Form f) {
-
 		return find(sql + f.getWhere());
 	}
 
 	/***
 	 * 返回全部的数据 比较方便 但不灵活
-	 * 
-	 * @return
 	 */
 	public List<M> list(String where) {
-
 		return find(" select *from " + tableName + " " + where);
 	}
 
 	/***
-	 * 
+	 * see {@link #list(String)}
 	 * @return
 	 */
 	public List<M> list(String where, Object... params) {
-
 		return find(" select *from " + tableName + " " + where, params);
 	}
 
@@ -239,21 +217,15 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 
 	/***
 	 * 返回全部的数据 比较方便 但不灵活
-	 * 
-	 * @return
 	 */
 	public List<M> list(int limit) {
-
 		return find(" select *from " + tableName + " limit " + limit);
 	}
 
 	/***
 	 * 返回全部的数据 比较方便 但不灵活
-	 * 
-	 * @return
 	 */
 	public List<M> list(int page, int size) {
-
 		if (page < 1)
 			page = 0;
 		return find(" select *from " + tableName + " limit " + (page - 1)
@@ -273,7 +245,6 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 	// }
 
 	public List<M> findByCache(String sql) {
-
 		return super.findByCache(tableName, sql, sql);
 	}
 
@@ -282,7 +253,6 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 	}
 
 	public boolean saveAndDate() {
-
 		return this.setDate("date").save();
 	}
 
@@ -292,7 +262,6 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 	}
 
 	public boolean updateAndModifyDate() {
-
 		return this.setDate("modifydate").update();
 	}
 
@@ -302,18 +271,12 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 
 	public M setDate(String date) {
 		return this.set(date, new Timestamp(System.currentTimeMillis()));
-
 	}
 
 	/***
 	 * 把 model 转化为 list 找到其中的单个属性
-	 * 
-	 * @param sql
-	 * @param attr
-	 * @return
 	 */
 	public List<String> getAttr(String sql, String attr) {
-
 		List<String> list = new ArrayList<String>();
 
 		for (M t : find(sql)) {
@@ -321,14 +284,10 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 			list.add(t.getStr(attr));
 		}
 		return list;
-
 	}
 
 	/***
 	 * 把 model 转化为 list 找到其中的单个属性
-	 * @param sql
-	 * @param attr
-	 * @return
 	 */
 	public List<String> getAttr(String sql, String attr, String... param) {
 		List<String> list = new ArrayList<String>();
@@ -352,11 +311,8 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 
 	/***
 	 * 取值
-	 * 
-	 * @return
 	 */
 	public Long getCount() {
-
 		return getLong("count");
 	}
 
@@ -375,8 +331,6 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 
 	/***
 	 * return getStr("name");
-	 * 
-	 * @return
 	 */
 	public String getName() {
 		return getStr("name");
@@ -407,18 +361,14 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 	 * @return
 	 */
 	public String getDate() {
-
 		return getStr("date");
 	}
 
 	public String getCreateDate() {
-
 		return getStr("createdate");
-
 	}
 
 	public String getModifyDate() {
-
 		return getStr("modifydate");
 	}
 
@@ -435,7 +385,6 @@ public class Model<M extends com.jfinal.plugin.activerecord.Model<M>> extends
 	}
 
 	public static String sql(String key) {
-
 		return SqlKit.sql(key);
 	}
 

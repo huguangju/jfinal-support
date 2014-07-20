@@ -82,9 +82,6 @@ public class Form {
 
 	/***
 	 * 生成 one to many sql 表默认名称 改为 Class。getSimpleName。toLowerCase 根据 主键 关联
-	 * 
-	 * @param oneClazz
-	 * @param manyclazz
 	 */
 	public String oneToMany(Class<? extends Model<?>> oneClazz,
 			Class<? extends Model<?>> manyclazz) {
@@ -172,7 +169,6 @@ public class Form {
 	// }
 
 	public String getFromParm(String key) {
-
 		return fromMap.get(key);
 	}
 
@@ -185,34 +181,26 @@ public class Form {
 			dg.sortOrder = "asc";
 
 		return getWhere() + sort(dg.sortName, dg.sortOrder);
-
 	}
 
 	/***
 	 * '%Y-%m-%d'
-	 * 
-	 * @return
 	 */
 	public String groupDate() {
 		return " GROUP BY DATE_FORMAT(date,'%Y-%m-%d')";
 	}
 
 	public String getWhereGroupDate() {
-
 		return getWhere() + groupDate();
 	}
 
+	//TODO:getCountSql
 	public String getCountSql(String string) {
-
 		return null;
 	}
 
 	/***
 	 * 设置自己的where
-	 * 
-	 * @param dg
-	 * @param where
-	 * @return
 	 */
 	public String getWhereAndLimit(DataGrid<?> dg, String where) {
 		int page = dg.page;
@@ -280,70 +268,46 @@ public class Form {
 	}
 
 	public String limit(int page, int size) {
-
 		return " limit " + size * page + "," + size;
 	}
 
 	public String limit(int size) {
-
 		return " limit " + size;
 	}
 
 	/***
 	 * >=
-	 * 
-	 * @param key
-	 * @param value
-	 * @return
 	 */
 	public String gteq(String key, String value) {
-
 		return where += " and " + key + ">=" + value;
 	}
 
 	/***
 	 * <=
-	 * 
-	 * @param key
-	 * @param value
-	 * @return
 	 */
 	public String lteq(String key, String value) {
-
 		return where += " and " + key + "<=" + value;
 	}
 
 	/***
 	 * >
-	 * 
-	 * @param key
-	 * @param value
-	 * @return
 	 */
 	public String gt(String key, String value) {
-
 		return where += " and " + key + ">" + value;
 	}
 
 	/***
 	 * <
-	 * 
-	 * @param key
-	 * @param value
-	 * @return
 	 */
 	public String lt(String key, String value) {
-
 		return where += " and " + key + "<" + value;
 	}
 
 	public String quotation(String value) {
-
 		return "'" + value + "'";
 	}
 
 	public String like(String key, String value) {
-
 		return where += " and " + key + " like '%" + value + "%'";
 	}
 
