@@ -23,6 +23,7 @@ public class IconUtil {
 	 * @param fileName
 	 * @return
 	 */
+	@SuppressWarnings("resource")
 	public static InputStream extractFileFromApk(String apkpath, String fileName) {
 		try {
 			ZipFile zFile = new ZipFile(apkpath);
