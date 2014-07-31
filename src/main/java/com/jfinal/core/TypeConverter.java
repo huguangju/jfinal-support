@@ -31,15 +31,15 @@ final class TypeConverter {
 	/**
 	 * test for all types of mysql
 	 * 
-	 * 表单提交测试结果:
-	 * 1: 表单中的域,就算不输入任何内容,也会传过来 "", 也即永远不可能为 null.
-	 * 2: 如果输入空格也会提交上来
-	 * 3: 需要考 model中的 string属性,在传过来 "" 时是该转成 null还是不该转换,
-	 *    我想, 因为用户没有输入那么肯定是 null, 而不该是 ""
-	 * 
-	 * 注意: 1:当clazz参数不为String.class, 且参数s为空串blank的情况,
-	 *       此情况下转换结果为 null, 而不应该抛出异常
-	 *      2:调用者需要对被转换数据做 null 判断，参见 ModelInjector 的两处调用
+	 * <br/>表单提交测试结果:
+	 * <p>1: 表单中的域,就算不输入任何内容,也会传过来 "", 也即永不可能为 null.</p>
+	 * <p>2: 如果输入空格也会提交上来</p>
+	 * <p>3: 需要考 model中的 string属性,在传过来 "" 时是该转成 null还是不该转换,
+	 *    我想, 因为用户没有输入那么肯定是 null, 而不该是 ""</p>
+	 * <br/>
+	 * 注意:<p> 1:当clazz参数不为String.class, 且参数s为空串blank的情况,
+	 *       此情况下转换结果为 null, 而不应该抛出异常</p>
+	 *      <p>2:调用者需要对被转换数据做 null 判断，参见 ModelInjector 的两处调用</p>
 	 */
 	public static final Object convert(Class<?> clazz, String s) throws ParseException {
 		// mysql type: varchar, char, enum, set, text, tinytext, mediumtext, longtext

@@ -37,6 +37,9 @@ final class ModelInjector {
 		return (T)inject(modelClass, StrKit.firstCharToLowerCase(modelName), request, skipConvertError);
 	}
 	
+	/**
+	 * Inject parameter into model
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static final <T> T inject(Class<?> modelClass, String modelName, HttpServletRequest request, boolean skipConvertError) {
 		Object model = null;
@@ -78,6 +81,13 @@ final class ModelInjector {
 		}
 	}
 	
+	/**
+	 * Inject parameter into model
+	 * @param model model class, get corresponding {@link#Table} by it
+	 * @param modelName parameter's prefix link with dot
+	 * @param request {@link#HttpServletRequest}
+	 * @param skipConvertError whether skip convert error or not 
+	 */
 	@SuppressWarnings("rawtypes")
 	private static final void injectActiveRecordModel(Model<?> model, String modelName, HttpServletRequest request, boolean skipConvertError) {
 		Table table = TableMapping.me().getTable(model.getClass());

@@ -31,6 +31,8 @@ class InterceptorBuilder {
 	
 	private static final Interceptor[] NULL_INTERCEPTOR_ARRAY = new Interceptor[0];
 	
+	private Map<Class<Interceptor>, Interceptor> intersMap = new HashMap<Class<Interceptor>, Interceptor>();
+	
 	@SuppressWarnings("unchecked")
 	void addToInterceptorsMap(Interceptor[] defaultInters) {
 		for (Interceptor inter : defaultInters)
@@ -96,8 +98,6 @@ class InterceptorBuilder {
 		ClearInterceptor clearInterceptor = controllerClass.getAnnotation(ClearInterceptor.class);
 		return clearInterceptor != null ? clearInterceptor.value() : null ;
 	}
-	
-	private Map<Class<Interceptor>, Interceptor> intersMap = new HashMap<Class<Interceptor>, Interceptor>();
 	
 	/**
 	 * Create interceptors with Annotation of Before. Singleton version.

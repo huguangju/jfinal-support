@@ -45,6 +45,9 @@ final class ActionMapping {
 		this.interceptors = interceptors;
 	}
 	
+	/** 
+	 * Get no parameter's methods in {@link#Controller} 
+	 */
 	private Set<String> buildExcludedMethodName() {
 		Set<String> excludedMethodName = new HashSet<String>();
 		Method[] methods = Controller.class.getMethods();
@@ -55,12 +58,19 @@ final class ActionMapping {
 		return excludedMethodName;
 	}
 	
+	/**
+	 * Action mapping<br/>
+	 * <ol><li>If {@link#ActionKey} Annotation is set, use it</li>
+	 * <li>If method name is <code><b>Index</b></code>, it will be mapping as root of controller</li>
+	 * <li>Other condition will use this pattern <code>'controller key' + 'method name'</code> by default</li></ol> 
+	 */
 	void buildActionMapping() {
 		mapping.clear();
 		Set<String> excludedMethodName = buildExcludedMethodName();
 		InterceptorBuilder interceptorBuilder = new InterceptorBuilder();
 		Interceptor[] defaultInters = interceptors.getInterceptorArray();
 		interceptorBuilder.addToInterceptorsMap(defaultInters);
+		
 		for (Entry<String, Class<? extends Controller>> entry : routes.getEntrySet()) {
 			Class<? extends Controller> controllerClass = entry.getValue();
 			Interceptor[] controllerInters = interceptorBuilder.buildControllerInterceptors(controllerClass);
@@ -153,6 +163,9 @@ final class ActionMapping {
 		return action;
 	}
 	
+	/**
+	 * Get the sort of all action keys
+	 */
 	List<String> getAllActionKeys() {
 		List<String> allActionKeys = new ArrayList<String>(mapping.keySet());
 		Collections.sort(allActionKeys);

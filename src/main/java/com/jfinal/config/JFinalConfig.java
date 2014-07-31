@@ -70,8 +70,8 @@ public abstract class JFinalConfig {
 	private Properties properties;
 	
 	/**
-	 * Load property file
-	 * Example: loadPropertyFile("db_username_pass.txt");
+	 * Load property file<br/>
+	 * Example: loadPropertyFile("db_username_pass.txt");<br/>
 	 * @param file the file in WEB-INF directory
 	 */
 	public Properties loadPropertyFile(String file) {

@@ -19,9 +19,9 @@ package com.jfinal.kit;
 import java.io.File;
 
 /**
- * new File("..\path\abc.txt") 中的三个方法获取路径的方法
- * 1： getPath() 获取相对路径，例如   ..\path\abc.txt
- * 2： getAbslutlyPath() 获取绝对路径，但可能包含 ".." 或 "." 字符，例如  D:\otherPath\..\path\abc.txt
+ * new File("..\path\abc.txt") 中的三个方法获取路径的方法<br/>
+ * 1： getPath() 获取相对路径，例如   ..\path\abc.txt<br/>
+ * 2： getAbslutlyPath() 获取绝对路径，但可能包含 ".." 或 "." 字符，例如  D:\otherPath\..\path\abc.txt<br/>
  * 3： getCanonicalPath() 获取绝对路径，但不包含 ".." 或 "." 字符，例如  D:\path\abc.txt
  */
 public class PathKit {
